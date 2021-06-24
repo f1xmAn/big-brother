@@ -29,8 +29,4 @@ public class LocatePersonCommand {
     String personId;
     @JsonProperty("locatedAt")
     OffsetDateTime locatedAt;
-
-    public static void main(String[] args) throws JsonProcessingException {
-        System.out.println(new String(TypeSerDe.serialize(new LocatePersonCommand("BLUE", "Alice", OffsetDateTime.now()))));
-    }
 }
