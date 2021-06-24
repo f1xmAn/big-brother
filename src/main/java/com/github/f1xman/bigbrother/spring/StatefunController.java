@@ -1,5 +1,6 @@
 package com.github.f1xman.bigbrother.spring;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.flink.statefun.sdk.java.handler.RequestReplyHandler;
 import org.apache.flink.statefun.sdk.java.slice.Slice;
 import org.apache.flink.statefun.sdk.java.slice.Slices;
@@ -12,13 +13,10 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/")
+@RequiredArgsConstructor
 public class StatefunController {
 
     private final RequestReplyHandler handler;
-
-    public StatefunController(RequestReplyHandler handler) {
-        this.handler = handler;
-    }
 
     @PostMapping("/{functionName}")
     public CompletableFuture<byte[]> handle(@RequestBody byte[] body) {
