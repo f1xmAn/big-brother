@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/")
@@ -22,10 +21,9 @@ public class StatefunController {
     }
 
     @PostMapping("/{functionName}")
-    public CompletableFuture<byte[]> handle(@RequestBody byte[] body) throws ExecutionException, InterruptedException {
+    public CompletableFuture<byte[]> handle(@RequestBody byte[] body) {
         return handler
                 .handle(Slices.wrap(body))
-                .thenApply(Slice::toByteArray)
-                .toCompletableFuture();
+                .thenApply(Slice::toByteArray);
     }
 }
