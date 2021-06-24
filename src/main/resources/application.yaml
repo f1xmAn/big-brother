@@ -1,0 +1,5 @@
+egresses:
+  person-might-be-infected-event:
+    topic: PersonMightBeInfectedEvent
+persons:
+  prune-meeting-log-after: P2W

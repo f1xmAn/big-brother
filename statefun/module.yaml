@@ -1,0 +1,51 @@
+version: "3.0"
+
+module:
+  meta:
+    type: remote
+  spec:
+    endpoints:
+      - endpoint:
+          meta:
+            kind: http
+          spec:
+            functions: com.github.f1xman.bigbrother/*
+            urlPathTemplate: http://192.168.1.9:8080/{function.name}
+    ingresses:
+      - ingress:
+          meta:
+            type: io.statefun.kafka/ingress
+            id: com.github.f1xman.bigbrother/LocatePersonCommand
+          spec:
+            address: 192.168.1.9:9092
+            consumerGroupId: bigbrother
+            startupPosition:
+              type: earliest
+            topics:
+              - topic: LocatePersonCommand
+                valueType: com.github.f1xman.bigbrother.person/LocatePerson
+                targets:
+                  - com.github.f1xman.bigbrother/PersonFn
+      - ingress:
+          meta:
+            type: io.statefun.kafka/ingress
+            id: com.github.f1xman.bigbrother/AlertInfectionCommand
+          spec:
+            address: 192.168.1.9:9092
+            consumerGroupId: bigbrother
+            startupPosition:
+              type: latest
+            topics:
+              - topic: AlertInfectionCommand
+                valueType: com.github.f1xman.bigbrother.person/AlertInfection
+                targets:
+                  - com.github.f1xman.bigbrother/PersonFn
+    egresses:
+      - egress:
+          meta:
+            type: io.statefun.kafka/egress
+            id: com.github.f1xman.bigbrother/PersonMightBeInfectedEvent
+          spec:
+            address: 192.168.1.9:9092
+            deliverySemantic:
+              type: at-least-once
