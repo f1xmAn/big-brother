@@ -130,10 +130,6 @@ public class PersonFn implements StatefulFunction, StatefulFunctionSpecFactory {
                 .collect(joining(", ")), context.self().id());
     }
 
-    private boolean missingIn(Collection<SavePersonsCommand.Person> collection, LoggedPerson p) {
-        return collection.stream().noneMatch(ep -> ep.getId().equals(p.getId()));
-    }
-
     private void onAlertInfection(Context context, AlertInfectionCommand alertInfectionCommand) {
         log.info("Person {} infected", context.self().id());
         AddressScopedStorage storage = context.storage();
